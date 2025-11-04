@@ -13,16 +13,15 @@ services:
     networks:
       - private_network
       - public_network
-
   database:
     image: postgres
     restart: always
     volumes:
-      - ./volumes/db:/var/lib/postgresql
+      - ./volumes/db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root
-      POSTGRES_DB: library
+      POSTGRES_DB: pedeai
     ports:
       - 5432:5432
     networks:
@@ -43,4 +42,3 @@ networks:
     driver: bridge
   private_network:
     driver: bridge
-

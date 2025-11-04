@@ -20,7 +20,7 @@ export const users = pgTable('users', {
 })
 
 export const insertUserSchema = createInsertSchema(users, {
-  id: z.string().transform(() => createId()),
+  id: z.string().transform(createId).default(createId),
   name: z
     .string()
     .trim()

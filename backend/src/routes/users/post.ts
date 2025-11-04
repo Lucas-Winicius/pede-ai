@@ -42,7 +42,6 @@ export default async function post(app: FastifyInstance) {
           data: insertUser,
         })
       } catch (e) {
-        console.log(e)
         reply.code(400).send({
           status: 400,
           message: 'Erro ao criar usuario',

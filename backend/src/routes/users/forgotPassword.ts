@@ -1,0 +1,116 @@
+import { FastifyReply, FastifyInstance, FastifyRequest } from 'fastify'
+import { forgotPasswordUserSchema, users } from '../../db/schemas/users'
+import { db } from '../../db/database'
+import forgotPasswordSchema from './forgotPassword.schema'
+import { eq } from 'drizzle-orm'
+import email from '../../libs/email'
+
+interface RecoverUserPasswordBody {
+  email: string
+}
+
+export default async function forgotPassword(app: FastifyInstance) {
+  app.post(
+    '/forgotPassword',
+    {
+      schema: forgotPasswordSchema,
+    },
+    async (
+      req: FastifyRequest<{ Body: RecoverUserPasswordBody }>,
+      reply: FastifyReply
+    ) => {
+      try {
+        const emailData = await forgotPasswordUserSchema.parseAsync(req.body)
+
+        const [userData] = await db
+          .select({
+            id: users.id,
+            name: users.name,
+            email: users.email,
+          })
+          .from(users)
+          .where(eq(users.email, emailData.email))
+
+        if (userData) {
+          email.sendMail({
+            from: '"Pede.Ai" <pedeai@winicius.xyz>',
+            to: userData.email!,
+            subject: 'Troca de senha',
+            html: `<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recuperação de senha</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 100dvw;
+        height: 100dvh;
+        background-color: rgb(238, 238, 238);
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      main {
+        background-color: white;
+        width: 40dvw;
+        height: max-content;
+        padding: 20px 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.178);
+      }
+
+      main > h1 {
+        text-align: center;
+      }
+
+      main > button {
+        padding: 10px 30px;
+        font-weight: bold;
+        background-color: rgb(0, 180, 0);
+        border: none;
+        border-radius: 5px;
+        color: white;
+      }
+
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Recuperação de senha</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id possimus
+        quae reprehenderit, enim sint perspiciatis odio molestias, soluta
+        tempora optio iusto et aliquam maxime non obcaecati deleniti magni alias
+        laboriosam!
+      </p>
+      <button>Recuperar senha</button>
+    </main>
+  </body>
+</html>
+`, // HTML body
+          })
+        }
+
+        reply.send('email de recuperação enviado')
+      } catch (e) {
+        reply.code(400).send({
+          status: 400,
+          message: 'Erro ao criar usuario',
+          data: e,
+        })
+      }
+    }
+  )
+}

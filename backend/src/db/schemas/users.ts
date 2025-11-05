@@ -29,3 +29,7 @@ export const insertUserSchema = createInsertSchema(users, {
   email: z.string().trim().toLowerCase().email(),
   password: z.string().nonempty().trim().transform(hash),
 })
+
+export const forgotPasswordUserSchema = z.object({
+  email: z.string().trim().toLowerCase().email()
+})

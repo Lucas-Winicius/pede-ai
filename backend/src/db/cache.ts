@@ -32,9 +32,9 @@ class Cache {
     }
   }
 
-  async set(key: string, value: string | number) {
+  async set(key: string, value: string | number, expiration = 7200) {
     try {
-      await this.client.set(key, value, 'EX', 7200, 'NX')
+      await this.client.set(key, value, 'EX', expiration, 'NX')
     } catch (err) {
       console.error('Error setting Redis key:', err)
     }
@@ -48,7 +48,6 @@ class Cache {
       return false
     }
   }
-
 }
 
 export default new Cache()

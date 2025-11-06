@@ -4,6 +4,8 @@ import { db } from '../../db/database'
 import forgotPasswordSchema from './forgotPassword.schema'
 import { eq } from 'drizzle-orm'
 import email from '../../libs/email'
+import cache from '../../db/cache'
+import createId from '../../libs/idGen'
 
 interface RecoverUserPasswordBody {
   email: string
@@ -31,12 +33,21 @@ export default async function forgotPassword(app: FastifyInstance) {
           .from(users)
           .where(eq(users.email, emailData.email))
 
+        const passwordToken = `${createId()}-${createId()}-${createId()}-${createId()}-${createId()}`
+
+        cache.set(
+          passwordToken,
+          JSON.stringify(userData),
+          1800
+        )
+
         if (userData) {
           email.sendMail({
             from: '"Pede.Ai" <pedeai@winicius.xyz>',
             to: userData.email!,
             subject: 'Troca de senha',
-            html: `<!doctype html>
+            html: `
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -51,7 +62,6 @@ export default async function forgotPassword(app: FastifyInstance) {
 
       body {
         width: 100dvw;
-        height: 100dvh;
         background-color: rgb(238, 238, 238);
         font-family: Arial, Helvetica, sans-serif;
         display: flex;
@@ -60,8 +70,9 @@ export default async function forgotPassword(app: FastifyInstance) {
       }
 
       main {
+        margin: 0px 20px;
+        margin-top: 10dvh;
         background-color: white;
-        width: 40dvw;
         height: max-content;
         padding: 20px 50px;
         display: flex;
@@ -83,23 +94,24 @@ export default async function forgotPassword(app: FastifyInstance) {
         border-radius: 5px;
         color: white;
       }
-
     </style>
   </head>
   <body>
     <main>
       <h1>Recuperação de senha</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id possimus
-        quae reprehenderit, enim sint perspiciatis odio molestias, soluta
-        tempora optio iusto et aliquam maxime non obcaecati deleniti magni alias
-        laboriosam!
-      </p>
+      <p>Olá <strong>${userData.name
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .join(' ')}</strong>,</p>
+      <p>Recebemos uma solicitação para redefinir sua senha de acesso à sua conta no <strong>Pede.ai</strong>.</p>
+      <p>Se você realmente fez essa solicitação, clique no botão abaixo para criar uma nova senha</p>
+      <p>Este link é válido por <strong>30 minutos</strong>. Após esse período, será necessário solicitar novamente a recuperação.</p>
+      <p>Caso você <strong>não tenha solicitado</strong> a alteração, nenhuma ação é necessária — sua conta permanece segura.</p>
       <button>Recuperar senha</button>
     </main>
   </body>
-</html>
-`, // HTML body
+</html>`,
           })
         }
 

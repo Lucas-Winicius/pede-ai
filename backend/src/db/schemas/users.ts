@@ -33,3 +33,8 @@ export const insertUserSchema = createInsertSchema(users, {
 export const forgotPasswordUserSchema = z.object({
   email: z.string().trim().toLowerCase().email()
 })
+
+export const recoverPasswordUserSchema = z.object({
+  token: z.string().trim(),
+  password: z.string().nonempty().trim().transform(hash),
+})

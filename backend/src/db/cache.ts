@@ -40,6 +40,16 @@ class Cache {
     }
   }
 
+  async delete(key: string) {
+    try {
+      const result = await this.client.del(key)
+      return result > 0
+    } catch (err) {
+      console.error('Error deleting Redis key:', err)
+      return false
+    }
+  }
+
   async ping() {
     try {
       const pingResponse = await this.client.ping()

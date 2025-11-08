@@ -35,13 +35,9 @@ export default async function forgotPassword(app: FastifyInstance) {
 
         const passwordToken = `${createId()}-${createId()}-${createId()}-${createId()}-${createId()}`
 
-        cache.set(
-          passwordToken,
-          JSON.stringify(userData),
-          1800
-        )
-
         if (userData) {
+          cache.set(passwordToken, JSON.stringify(userData), 60 * 30)
+
           email.sendMail({
             from: '"Pede.Ai" <pedeai@winicius.xyz>',
             to: userData.email!,
@@ -108,6 +104,7 @@ export default async function forgotPassword(app: FastifyInstance) {
       <p>Se você realmente fez essa solicitação, clique no botão abaixo para criar uma nova senha</p>
       <p>Este link é válido por <strong>30 minutos</strong>. Após esse período, será necessário solicitar novamente a recuperação.</p>
       <p>Caso você <strong>não tenha solicitado</strong> a alteração, nenhuma ação é necessária — sua conta permanece segura.</p>
+      <p>${passwordToken}</p>
       <button>Recuperar senha</button>
     </main>
   </body>
@@ -115,7 +112,7 @@ export default async function forgotPassword(app: FastifyInstance) {
           })
         }
 
-        reply.send('email de recuperação enviado')
+        reply.code(204)
       } catch (e) {
         reply.code(400).send({
           status: 400,

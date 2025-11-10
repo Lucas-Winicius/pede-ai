@@ -6,6 +6,7 @@ import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
 import swaggerConf from './config/swagger.config'
 import corsOptions from './config/cors.config'
+import fastifyMultipart from '@fastify/multipart'
 
 const port = parseInt(process.env.PORT || '3000')
 
@@ -14,6 +15,7 @@ export const app = fastify()
 app.register(routes)
 app.register(cors, corsOptions)
 app.register(swagger, swaggerConf)
+app.register(fastifyMultipart)
 
 app.register(swaggerUi, {
   routePrefix: '/docs',

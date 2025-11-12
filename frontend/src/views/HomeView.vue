@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import HeaderComponent from '@/components/HeaderComponent.vue';
+
 </script>
 
 <template>
+  <HeaderComponent />
   <main>
-    <TheWelcome />
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius, alias? Hic maiores itaque laudantium rerum
+      eveniet optio vitae alias magnam beatae sapiente, minima magni. Dolorum recusandae rem ullam beatae libero?</p>
   </main>
 </template>

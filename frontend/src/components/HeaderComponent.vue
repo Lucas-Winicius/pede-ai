@@ -1,15 +1,32 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
-  <header class="flex flex-row justify-between items-center py-5 px-10">
-    <h1 class="font-bold text-4xl">Pede.ai</h1>
-    <p>Entregar Para <strong>Lorem ipsum dolor sit</strong></p>
-      <div class="bg-gray-200 p-1 rounded-full">
-      <v-icon name="la-user-alt-solid" scale="2.3" />
+  <header
+    class="flex justify-between items-center px-10 py-5 bg-white shadow-sm sticky top-0 z-50"
+  >
+    <!-- Logo -->
+    <div class="flex items-center gap-2">
+      <h1 class="font-extrabold text-3xl text-gray-900 tracking-tight">
+        <span class="text-green-500">Pede</span>.ai
+      </h1>
     </div>
+
+    <!-- Local de entrega -->
+    <div class="hidden sm:flex flex-col items-center text-center">
+      <p class="text-sm text-gray-500 leading-tight">Entregar para</p>
+      <p class="font-semibold text-gray-800">Lorem ipsum dolor sit</p>
+    </div>
+
+    <!-- Ícone do usuário -->
+    <button
+      class="bg-gray-100 hover:bg-gray-200 transition-colors p-2 rounded-full shadow-sm"
+      aria-label="Perfil do usuário"
+    >
+      <v-icon name="la-user-alt-solid" scale="2" class="text-gray-700" />
+    </button>
   </header>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

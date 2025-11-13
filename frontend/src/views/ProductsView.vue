@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import HeaderComponent from '@/components/HeaderComponent.vue'
-import ProductCard from '@/components/ProductCard.vue'
 import ProductComponent from '@/components/ProductComponent.vue';
 </script>
 

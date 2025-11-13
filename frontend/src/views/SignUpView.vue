@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import HeaderComponent from '@/components/HeaderComponent.vue'
 
-// Lógica futura:
-// const form = reactive({ email: '', senha: '' })
+// Aqui você pode definir a lógica do formulário futuramente
+// const form = reactive({ nome: '', email: '', senha: '' })
 </script>
 
 <template>
@@ -15,13 +15,24 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
       class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-100"
     >
       <h1 class="text-3xl font-bold text-gray-800 text-center mb-2">
-        Bem-vindo de volta
+        Criar conta
       </h1>
       <p class="text-gray-500 text-center mb-8">
-        Faça login para continuar
+        Preencha os dados abaixo para se cadastrar
       </p>
 
       <form class="flex flex-col gap-5">
+        <!-- Nome -->
+        <div class="flex flex-col gap-1">
+          <label for="nome" class="font-semibold text-gray-700">Nome completo</label>
+          <input
+            id="nome"
+            type="text"
+            placeholder="Seu nome"
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+          />
+        </div>
+
         <!-- E-mail -->
         <div class="flex flex-col gap-1">
           <label for="email" class="font-semibold text-gray-700">E-mail</label>
@@ -44,18 +55,17 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
           />
         </div>
 
-        <!-- Lembrar / Esqueci senha -->
-        <div class="flex items-center justify-between text-sm mt-1">
-          <label class="flex items-center gap-2 text-gray-600">
-            <input type="checkbox" class="accent-green-500" />
-            Lembrar de mim
-          </label>
-          <a
-            href="/recuperar"
-            class="text-green-500 hover:underline font-medium"
+        <!-- Confirmar senha -->
+        <div class="flex flex-col gap-1">
+          <label for="confirmar" class="font-semibold text-gray-700"
+            >Confirmar senha</label
           >
-            Esqueceu a senha?
-          </a>
+          <input
+            id="confirmar"
+            type="password"
+            placeholder="********"
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+          />
         </div>
 
         <!-- Botão -->
@@ -63,17 +73,17 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
           type="submit"
           class="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold text-lg transition-all"
         >
-          Entrar
+          Cadastrar
         </button>
       </form>
 
-      <!-- Cadastro link -->
+      <!-- Login link -->
       <p class="text-center text-sm text-gray-600 mt-6">
-        Ainda não tem uma conta?
+        Já possui uma conta?
         <a
-          href="/cadastro"
+          href="/login"
           class="text-green-500 font-semibold hover:underline transition-all"
-          >Cadastre-se</a
+          >Entrar</a
         >
       </p>
     </div>

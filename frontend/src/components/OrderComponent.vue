@@ -1,23 +1,13 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <tr>
-    <td class="font-bold text-center">
-      #00232
-    </td>
+  <tr class="hover:bg-gray-50 transition-all">
+    <td class="text-center py-3 font-medium text-gray-800">#1001</td>
+    <td class="text-center text-gray-600">12 Nov 2025</td>
+    <td class="text-center text-gray-700">Lucas Winicius</td>
+    <td class="text-center text-gray-800 font-semibold">R$ 43,50</td>
     <td class="text-center">
-      <p>Hoje, 14h35</p>
+      <span class="bg-green-100 text-green-600 font-semibold px-4 py-1 rounded-full text-sm">Ativo</span>
     </td>
-    <td class="text-center">
-      <p>Lucas Winicius</p>
-    </td>
-    <td class="text-center">
-      <p>R$ 23,50</p>
-    </td>
-    <td class="text-center"><button class="bg-green-500 py-1 px-5 rounded-md text-white">Concluir</button></td>
   </tr>
 </template>
-
-<style scoped></style>

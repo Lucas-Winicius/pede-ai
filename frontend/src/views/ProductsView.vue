@@ -48,8 +48,7 @@ import ProductComponent from '@/components/ProductComponent.vue';
       <div class="flex justify-between items-center mt-6 mb-8">
         <h2 class="text-2xl font-bold text-gray-800">Produtos</h2>
         <button
-          class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg transition-all shadow"
-        >
+          class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg transition-all shadow">
           + Novo Produto
         </button>
       </div>
@@ -57,15 +56,10 @@ import ProductComponent from '@/components/ProductComponent.vue';
       <!-- Filtros / Busca -->
       <div class="flex justify-center mb-10">
         <form class="flex gap-3 bg-white shadow-sm rounded-lg p-2">
-          <input
-            type="text"
-            name="search"
-            placeholder="Pesquisar produtos..."
-            class="px-4 py-2 w-80 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          />
+          <input type="text" name="search" placeholder="Pesquisar produtos..."
+            class="px-4 py-2 w-80 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400" />
           <button
-            class="px-6 bg-green-500 hover:bg-green-600 text-white rounded-md font-semibold transition-all duration-150"
-          >
+            class="px-6 bg-green-500 hover:bg-green-600 text-white rounded-md font-semibold transition-all duration-150">
             Pesquisar
           </button>
         </form>

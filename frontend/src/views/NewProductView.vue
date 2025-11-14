@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import HeaderComponent from '@/components/HeaderComponent.vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const productImage = ref<string | null>(null)
 
@@ -14,7 +16,12 @@ function onImageUpload(event: Event) {
 }
 
 function submitForm() {
+  // save to localStorage products list
+  const products = JSON.parse(localStorage.getItem('products' ) || '[]')
+  products.push({ id: Date.now(), name: 'Novo Produto', price: 0 })
+  localStorage.setItem('products', JSON.stringify(products))
   alert('Produto cadastrado com sucesso!')
+  router.push('/produtos')
 }
 </script>
 

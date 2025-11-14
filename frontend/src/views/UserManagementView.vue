@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HeaderComponent from '@/components/HeaderComponent.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 interface User {
   id: number
@@ -10,16 +10,27 @@ interface User {
 }
 
 const search = ref('')
-const users = ref<User[]>([
-  { id: 1, name: 'Lucas Ferreira', email: 'lucas@gmail.com', role: 'cliente' },
-  { id: 2, name: 'Ana Paula', email: 'ana@gmail.com', role: 'cliente' },
-  { id: 3, name: 'João Mendes', email: 'joao@gmail.com', role: 'admin' }
-])
+const users = ref<User[]>([])
+
+onMounted(()=>{
+  const raw = localStorage.getItem('users')
+  if(raw){ users.value = JSON.parse(raw) }
+  else{
+    users.value = [
+      { id: 1, name: 'Lucas Ferreira', email: 'lucas@gmail.com', role: 'cliente' },
+      { id: 2, name: 'Ana Paula', email: 'ana@gmail.com', role: 'cliente' },
+      { id: 3, name: 'João Mendes', email: 'joao@gmail.com', role: 'admin' }
+    ]
+    localStorage.setItem('users', JSON.stringify(users.value))
+  }
+})
+
+function saveUsers(){ localStorage.setItem('users', JSON.stringify(users.value)) }
+
 
 function promoteToAdmin(id: number) {
-  users.value = users.value.map(u =>
-    u.id === id ? { ...u, role: 'admin' } : u
-  )
+  users.value = users.value.map(u => u.id === id ? { ...u, role: 'admin' } : u)
+  saveUsers()
 }
 
 const filteredUsers = computed(() =>

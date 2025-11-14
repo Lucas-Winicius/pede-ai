@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+const router = useRouter()
 </script>
 
 <template>
@@ -7,7 +9,7 @@
   >
     <!-- Logo -->
     <div class="flex items-center gap-2">
-      <h1 class="font-extrabold text-3xl text-gray-900 tracking-tight">
+      <h1 class="font-extrabold text-3xl text-gray-900 tracking-tight cursor-pointer" @click="router.push('/')">
         <span class="text-green-500">Pede</span>.ai
       </h1>
     </div>
@@ -20,8 +22,9 @@
 
     <!-- Ícone do usuário -->
     <button
-      class="bg-gray-100 hover:bg-gray-200 transition-colors p-2 rounded-full shadow-sm"
+      class="bg-gray-100 hover:bg-gray-200 transition-colors p-2 rounded-full shadow-sm cursor-pointer"
       aria-label="Perfil do usuário"
+      @click="router.push('/usuarios')"
     >
       <v-icon name="la-user-alt-solid" scale="2" class="text-gray-700" />
     </button>

@@ -84,9 +84,9 @@ import OrderComponent from '@/components/OrderComponent.vue'
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
-            <OrderComponent />
-            <OrderComponent />
-            <OrderComponent />
+            <OrderComponent @finalizar="$router.push('/finalizar')" />
+            <OrderComponent @finalizar="$router.push('/finalizar')" />
+            <OrderComponent @finalizar="$router.push('/finalizar')" />
           </tbody>
         </table>
       </div>

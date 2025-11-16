@@ -7,6 +7,9 @@ import swaggerUi from '@fastify/swagger-ui'
 import swaggerConf from './config/swagger.config'
 import corsOptions from './config/cors.config'
 import fastifyMultipart from '@fastify/multipart'
+import fastifyStatic from '@fastify/static'
+import path from 'path'
+import fs from 'fs'
 
 const port = parseInt(process.env.PORT || '3000')
 
@@ -14,11 +17,22 @@ export const app = fastify({
   bodyLimit: 100 * 1024 * 1024,
 })
 
+const uploadDir = path.join(process.cwd(), 'uploads')
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true })
+}
+
+app.register(fastifyStatic, {
+  root: uploadDir,
+  prefix: '/public/',
+})
+
 app.register(fastifyMultipart, {
   limits: {
     fileSize: 100 * 1024 * 1024, // 100MB
   },
 })
+
 app.register(cors, corsOptions)
 app.register(swagger, swaggerConf)
 app.register(routes)
@@ -28,13 +42,7 @@ app.register(swaggerUi, {
   uiConfig: {
     docExpansion: 'full',
     deepLinking: false,
-  },
-  staticCSP: true,
-  transformStaticCSP: (header) => header,
-  transformSpecification: (swaggerObject) => {
-    return swaggerObject
-  },
-  transformSpecificationClone: true,
+  }
 })
 
 app.listen({ port, host: '0.0.0.0' }, (err, address) => {

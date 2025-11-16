@@ -3,9 +3,7 @@ import { recoverPasswordUserSchema, users } from '../../db/schemas/users'
 import { db } from '../../db/database'
 import recoverPasswordSchema from './recoverPassword.schema'
 import { eq } from 'drizzle-orm'
-import email from '../../libs/email'
 import cache from '../../db/cache'
-import createId from '../../libs/idGen'
 
 interface RecoverUserPasswordBody {
   password: string

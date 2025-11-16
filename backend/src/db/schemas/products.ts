@@ -17,6 +17,7 @@ export const products = pgTable('products', {
   id: char('id', { length: 12 }).primaryKey().notNull(),
   title: varchar('title').notNull(),
   description: text('description'),
+  image: text('image'),
   price: real('price').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')

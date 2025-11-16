@@ -27,6 +27,7 @@ export default async function post(app: FastifyInstance) {
             id: userDate.id,
             name: userDate.name,
             email: userDate.email,
+            address: userDate.address,
             password: userDate.password.hash!,
             role: 'user',
           })

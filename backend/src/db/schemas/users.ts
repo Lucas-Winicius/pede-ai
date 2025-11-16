@@ -12,6 +12,7 @@ export const users = pgTable('users', {
   role: rolesEnum(),
   name: varchar('username').notNull(),
   email: varchar('email').unique(),
+  address: varchar('address'),
   password: varchar('password').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')
@@ -27,11 +28,12 @@ export const insertUserSchema = createInsertSchema(users, {
     .min(3)
     .transform((name) => capitalize(name)),
   email: z.string().trim().toLowerCase().email(),
+  address: z.string().trim(),
   password: z.string().nonempty().trim().transform(hash),
 })
 
 export const forgotPasswordUserSchema = z.object({
-  email: z.string().trim().toLowerCase().email()
+  email: z.string().trim().toLowerCase().email(),
 })
 
 export const recoverPasswordUserSchema = z.object({

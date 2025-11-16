@@ -10,12 +10,18 @@ import fastifyMultipart from '@fastify/multipart'
 
 const port = parseInt(process.env.PORT || '3000')
 
-export const app = fastify()
+export const app = fastify({
+  bodyLimit: 100 * 1024 * 1024,
+})
 
-app.register(routes)
+app.register(fastifyMultipart, {
+  limits: {
+    fileSize: 100 * 1024 * 1024, // 100MB
+  },
+})
 app.register(cors, corsOptions)
 app.register(swagger, swaggerConf)
-app.register(fastifyMultipart)
+app.register(routes)
 
 app.register(swaggerUi, {
   routePrefix: '/docs',

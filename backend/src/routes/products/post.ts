@@ -1,7 +1,10 @@
 import { FastifyReply, FastifyInstance, FastifyRequest } from 'fastify'
-import postSchema from './post.schema'
 import { insertProductschema, products } from '../../db/schemas/products'
 import { db } from '../../db/database'
+import { pipeline } from 'stream/promises'
+import fs from 'fs'
+import path from 'path'
+import createId from '../../libs/idGen'
 
 interface CreateProductBody {
   title: string
@@ -12,22 +15,44 @@ interface CreateProductBody {
 export default async function post(app: FastifyInstance) {
   app.post(
     '/products',
-    {
-      schema: postSchema,
-    },
     async (
       req: FastifyRequest<{ Body: CreateProductBody }>,
       reply: FastifyReply
     ) => {
       try {
-        const productDate = await insertProductschema.parseAsync(req.body)
+        const parts = req.parts()
 
-        const insertProduct = await db
+        // Vai guardar os campos enviados
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data: any = {}
+
+        let uploadedFileName: string | null = null
+
+        const uploadDir = path.join(process.cwd(), 'uploads')
+
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir)
+        }
+
+        for await (const part of parts) {
+          if (part.type === 'file') {
+            uploadedFileName = `${Date.now()}-${createId()}-${part.filename}`
+            const filePath = path.join(uploadDir, uploadedFileName)
+            await pipeline(part.file, fs.createWriteStream(filePath))
+            data['image'] = uploadedFileName
+          } else {
+            data[part.fieldname] = part.value
+          }
+        }
+        const productDate = await insertProductschema.parseAsync(data)
+
+        const [insertProduct] = await db
           .insert(products)
           .values({
             id: productDate.id,
             title: productDate.title,
             description: productDate.description,
+            image: productDate.image,
             price: productDate.price,
           })
           .returning()

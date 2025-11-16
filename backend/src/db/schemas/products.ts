@@ -10,24 +10,18 @@ import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import createId from '../../libs/idGen'
 import { capitalize } from '../../libs/generic'
-import { images } from './images'
-import { relations } from 'drizzle-orm'
 
 export const products = pgTable('products', {
   id: char('id', { length: 12 }).primaryKey().notNull(),
   title: varchar('title').notNull(),
   description: text('description'),
-  image: text('image'),
+  image: varchar('image'),
   price: real('price').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')
     .$onUpdate(() => new Date())
     .defaultNow(),
 })
-
-export const productsRelations = relations(products, ({ many }) => ({
-  images: many(images),
-}))
 
 export const insertProductschema = createInsertSchema(products, {
   id: z.string().transform(createId).default(createId),
@@ -38,5 +32,6 @@ export const insertProductschema = createInsertSchema(products, {
     .max(255)
     .transform((name) => capitalize(name)),
   description: z.string().trim(),
-  price: z.number(),
+  image: z.string().trim(),
+  price: z.string().transform(Number),
 })

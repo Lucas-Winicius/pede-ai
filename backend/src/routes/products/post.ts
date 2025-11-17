@@ -22,7 +22,6 @@ export default async function post(app: FastifyInstance) {
       try {
         const parts = req.parts()
 
-        // Vai guardar os campos enviados
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data: any = {}
 

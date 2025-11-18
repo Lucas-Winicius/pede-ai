@@ -1,6 +1,13 @@
 <script setup lang="ts">
+import { isAuthenticated } from '@/services/auth.service';
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+function defineRedirecionamento() {
+  if(isAuthenticated()) router.push('/usuarios')
+  else router.push('/login')
+}
+
 </script>
 
 <template>
@@ -15,7 +22,7 @@ const router = useRouter()
     </div>
 
     <!-- Local de entrega -->
-    <div class="hidden sm:flex flex-col items-center text-center">
+    <div class="hidden sm:flex flex-col items-center text-center" v-if="isAuthenticated()">
       <p class="text-sm text-gray-500 leading-tight">Entregar para</p>
       <p class="font-semibold text-gray-800">Lorem ipsum dolor sit</p>
     </div>
@@ -24,7 +31,7 @@ const router = useRouter()
     <button
       class="bg-gray-100 hover:bg-gray-200 transition-colors p-2 rounded-full shadow-sm cursor-pointer"
       aria-label="Perfil do usuário"
-      @click="router.push('/usuarios')"
+      @click="defineRedirecionamento"
     >
       <v-icon name="la-user-alt-solid" scale="2" class="text-gray-700" />
     </button>

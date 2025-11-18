@@ -7,11 +7,13 @@ import ProductsView from '@/views/ProductsView.vue'
 import NewProductView from '@/views/NewProductView.vue'
 import UserManagementView from '@/views/UserManagementView.vue'
 import FinishOrderView from '@/views/FinishOrderView.vue'
+import ForgotPassword from '@/views/ForgotPassword.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },
   { path: '/register', name: 'register', component: SignUpView },
+  { path: '/recuperar', name: 'Recover', component: ForgotPassword },
   { path: '/produtos', name: 'products', component: ProductsView },
   { path: '/produtos/novo', name: 'product_new', component: NewProductView },
   { path: '/pedidos', name: 'orders', component: PedidosView },

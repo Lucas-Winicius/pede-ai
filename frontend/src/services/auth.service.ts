@@ -10,6 +10,10 @@ export const login = async (email: string, password: string): Promise<LoginRespo
   return response.data
 }
 
+export const ForgotPassword = async (email: string) => {
+  await api.post('/forgotPassword', { email })
+}
+
 export const logout = () => {
   localStorage.removeItem('token')
 }

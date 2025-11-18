@@ -8,12 +8,14 @@ import NewProductView from '@/views/NewProductView.vue'
 import UserManagementView from '@/views/UserManagementView.vue'
 import FinishOrderView from '@/views/FinishOrderView.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
+import ChangeForgotPassword from '@/views/ChangeForgotPassword.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },
   { path: '/register', name: 'register', component: SignUpView },
   { path: '/recuperar', name: 'Recover', component: ForgotPassword },
+  { path: '/recuperacao/alteracao', name: 'Recover', component: ChangeForgotPassword },
   { path: '/produtos', name: 'products', component: ProductsView },
   { path: '/produtos/novo', name: 'product_new', component: NewProductView },
   { path: '/pedidos', name: 'orders', component: PedidosView },

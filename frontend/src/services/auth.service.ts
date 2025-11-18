@@ -14,6 +14,10 @@ export const ForgotPassword = async (email: string) => {
   await api.post('/forgotPassword', { email })
 }
 
+export const changeForgotPassword = async (token: string, password: string) => {
+  await api.post('/recoverPassword', { token, password })
+}
+
 export const logout = () => {
   localStorage.removeItem('token')
 }

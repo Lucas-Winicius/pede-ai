@@ -1,8 +1,22 @@
 <script setup lang="ts">
 import HeaderComponent from '@/components/HeaderComponent.vue'
+import { reactive } from 'vue'
+import { login } from '@/services/auth.service'
+import { useRouter } from 'vue-router'
 
-// Lógica futura:
-// const form = reactive({ email: '', senha: '' })
+const router = useRouter()
+const form = reactive({ email: '', password: '' })
+
+async function handleLogin() {
+  try {
+    await login(form.email, form.password)
+    alert('Login realizado com sucesso!')
+    router.push('/') // Redireciona para a página inicial ou dashboard
+  } catch (error) {
+    alert('Erro ao fazer login. Verifique suas credenciais.')
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -21,7 +35,7 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
         Faça login para continuar
       </p>
 
-      <form class="flex flex-col gap-5">
+      <form class="flex flex-col gap-5" @submit.prevent="handleLogin">
         <!-- E-mail -->
         <div class="flex flex-col gap-1">
           <label for="email" class="font-semibold text-gray-700">E-mail</label>
@@ -30,6 +44,7 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
             type="email"
             placeholder="exemplo@email.com"
             class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+            v-model="form.email"
           />
         </div>
 
@@ -41,6 +56,7 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
             type="password"
             placeholder="********"
             class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+            v-model="form.password"
           />
         </div>
 
@@ -61,6 +77,7 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
         <!-- Botão -->
         <button
           type="submit"
+          :disabled="!form.email || !form.password"
           class="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold text-lg transition-all"
         >
           Entrar
